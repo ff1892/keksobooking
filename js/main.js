@@ -1,6 +1,6 @@
 'use strict' // eslint-disable-line
 
-const getRandomInt = function (minInt, maxInt) {
+const getRandomInt = (minInt, maxInt) => {
   if (minInt >= 0 && minInt > maxInt) {
     [minInt, maxInt] = [maxInt, minInt];
   }
