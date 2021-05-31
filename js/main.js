@@ -1,5 +1,3 @@
-'use strict';
-
 const getRandomInt = function (minInt, maxInt) {
   if (minInt >= 0 && minInt > maxInt) {
     [minInt, maxInt] = [maxInt, minInt];
