@@ -1,3 +1,5 @@
+'use strict' // eslint-disable-line
+
 const getRandomInt = function (minInt, maxInt) {
   if (minInt >= 0 && minInt > maxInt) {
     [minInt, maxInt] = [maxInt, minInt];
@@ -16,7 +18,7 @@ const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
   if (minNumber >= 0 && minNumber > maxNumber) {
     [minNumber, maxNumber] = [maxNumber, minNumber];
   }
-  if (minNumber >= 0 && minNumber !== maxNumber) {
+  if (minNumber >= 0 && minNumber !== maxNumber && fractionNumber >= 0) {
     minNumber = Math.ceil(minNumber * 10 ** fractionNumber);
     maxNumber = Math.floor ( maxNumber * 10 ** fractionNumber);
     const randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
