@@ -1,57 +1,30 @@
-// Функция, возвращающая случайное целое число из переданного диапазона включительно
+'use strict';
 
-const getRandomInt = function (minNumber, maxNumber) {
-  if (minNumber >= 0 && minNumber > maxNumber) {
-    [minNumber, maxNumber] = [maxNumber, minNumber];
+const getRandomInt = function (minInt, maxInt) {
+  if (minInt >= 0 && minInt > maxInt) {
+    [minInt, maxInt] = [maxInt, minInt];
   }
-  const isIntegerMin = !(minNumber - Math.floor(minNumber));
-  if (minNumber >= 0 && (Math.floor(minNumber) - Math.floor(maxNumber) !== 0 || isIntegerMin)) {
-    minNumber = Math.ceil(minNumber);
-    maxNumber = Math.floor(maxNumber);
-    return Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber);
+  if (minInt >= 0 && minInt !== maxInt) {
+    minInt = Math.ceil(minInt);
+    maxInt = Math.floor(maxInt);
+    return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt);
   }
   throw new Error('Некорректные аргументы');
 };
 
 getRandomInt();
 
-// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
-
-const getRandomFloat = function (minFloat, maxFloat, fractionNumber) {
-  if (minFloat >= 0 && minFloat > maxFloat) {
-    [minFloat, maxFloat] = [maxFloat, minFloat];
+const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
+  if (minNumber >= 0 && minNumber > maxNumber) {
+    [minNumber, maxNumber] = [maxNumber, minNumber];
   }
-  if (minFloat >=0 && minFloat !== maxFloat) {
-    const randomFloat = Math.random() * (maxFloat - minFloat) + minFloat;
-    return +randomFloat.toFixed(fractionNumber);
+  if (minNumber >= 0 && minNumber !== maxNumber) {
+    minNumber = Math.ceil(minNumber * 10 ** fractionNumber);
+    maxNumber = Math.floor ( maxNumber * 10 ** fractionNumber);
+    const randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+    return randomNumber / 10 ** fractionNumber;
   }
   throw new Error('Некорректные аргументы');
 };
 
-getRandomFloat();
-
-/*
-
-?? Вопрос ??
-
-Так как Math.random() задает число от 0 до 1, и при этом само число 1 не включается в диапазон,
-получается, что в функции getRandomFloat ну никак не может оказаться само число maxFloat, а по условию
-такая вероятность должна быть, хотя она и небольшая.
-
-Увидел такую вспомогательную функцию:
-
-// Generates values from <0, 1>
-
-function randomizeValue() {
-	var value = (1 + 10E-16) * Math.random();
-
-  	if (value > 1.0) {
-    	return 1.0;
-    }
-
-  	return value;
-}
-
-Стоит ли её использовать здесь?
-
-*/
+getRandomNumber();
