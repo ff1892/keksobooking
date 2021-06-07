@@ -10,7 +10,7 @@ const getRandomInt = (minInt, maxInt) => {
   throw new Error('Некорректные аргументы');
 };
 
-// getRandomInt();
+getRandomInt();
 
 const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
   if (minNumber >= 0 && minNumber > maxNumber) {
@@ -25,7 +25,7 @@ const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
   throw new Error('Некорректные аргументы');
 };
 
-// getRandomNumber();
+getRandomNumber();
 
 
 // MODULE 4 - TASK 1
@@ -150,14 +150,6 @@ const ad = () => ({
   location: locationKey(),
 });
 
-console.log(ad());
-console.log(ad());
-console.log(ad());
-
-const adList = () => {
-  const adArray = new Array(USERS_COUNT).fill(null).map(() => ad());
-  return adArray;
-};
+const adList = () => new Array(USERS_COUNT).fill(null).map(() => ad());
 
 adList();
-console.log(adList());
