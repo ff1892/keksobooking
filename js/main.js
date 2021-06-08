@@ -1,35 +1,3 @@
-const getRandomInt = (minInt, maxInt) => {
-  if (minInt >= 0 && minInt > maxInt) {
-    [minInt, maxInt] = [maxInt, minInt];
-  }
-  if (minInt >= 0 && minInt !== maxInt) {
-    minInt = Math.ceil(minInt);
-    maxInt = Math.floor(maxInt);
-    return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt);
-  }
-  throw new Error('Некорректные аргументы');
-};
-
-getRandomInt();
-
-const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
-  if (minNumber >= 0 && minNumber > maxNumber) {
-    [minNumber, maxNumber] = [maxNumber, minNumber];
-  }
-  if (minNumber >= 0 && minNumber !== maxNumber && fractionNumber >= 0) {
-    minNumber = Math.ceil(minNumber * 10 ** fractionNumber);
-    maxNumber = Math.floor ( maxNumber * 10 ** fractionNumber);
-    const randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
-    return randomNumber / 10 ** fractionNumber;
-  }
-  throw new Error('Некорректные аргументы');
-};
-
-getRandomNumber();
-
-
-// MODULE 4 - TASK 1
-
 const USERS_COUNT = 10;
 const AVATARS_COUNT = 8;
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -50,7 +18,7 @@ const HOUSING_DESCRIPTIONS = {
   hotel: 'Роскошный отдых для обеспеченных котов: VIP-когтеточка включена. Меняем лоток каждый день!',
 };
 
-const FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const HOUSING_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const PRICE = {
   min: 1,
@@ -82,6 +50,40 @@ const LNG_MIN = 139.7;
 const LNG_MAX = 139.8;
 const LOCATION_PRECISION = 5;
 const GALLERY_MAX = 10;
+
+let housingLat;
+let housingLng;
+
+
+const getRandomInt = (minInt, maxInt) => {
+  if (minInt >= 0 && minInt > maxInt) {
+    [minInt, maxInt] = [maxInt, minInt];
+  }
+  if (minInt >= 0 && minInt !== maxInt) {
+    minInt = Math.ceil(minInt);
+    maxInt = Math.floor(maxInt);
+    return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt);
+  }
+  throw new Error('Некорректные аргументы');
+};
+
+getRandomInt();
+
+const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
+  if (minNumber >= 0 && minNumber > maxNumber) {
+    [minNumber, maxNumber] = [maxNumber, minNumber];
+  }
+  if (minNumber >= 0 && minNumber !== maxNumber && fractionNumber >= 0) {
+    minNumber = Math.ceil(minNumber * 10 ** fractionNumber);
+    maxNumber = Math.floor ( maxNumber * 10 ** fractionNumber);
+    const randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+    return randomNumber / 10 ** fractionNumber;
+  }
+  throw new Error('Некорректные аргументы');
+};
+
+getRandomNumber();
+
 
 const getRandomArrayValue = (array) => array[getRandomNumber(0, array.length - 1)];
 
@@ -122,23 +124,27 @@ const authorKey = () => ({
   avatar: getAvatar(avatarsList),
 });
 
-const locationKey = () => ({
-  lat: getRandomNumber(LAT_MIN, LAT_MAX, LOCATION_PRECISION),
-  lng: getRandomNumber(LNG_MIN, LNG_MAX, LOCATION_PRECISION),
-});
+const locationKey = () => {
+  housingLat = getRandomNumber(LAT_MIN, LAT_MAX, LOCATION_PRECISION);
+  housingLng = getRandomNumber(LNG_MIN, LNG_MAX, LOCATION_PRECISION);
+  return {
+    lat: housingLat,
+    lng: housingLng,
+  };
+};
 
 const offerKey = () => {
   const housingType = getRandomArrayValue(HOUSING_TYPES);
   return {
     title: HOUSING_TITLES[housingType],
-    address: [locationKey().lat, locationKey().lng],
+    address: [housingLat, housingLng],
     price: getRandomNumber(PRICE.min, PRICE.max),
     type: housingType,
     rooms: getRandomNumber(ROOMS.min, ROOMS.max),
     guests: getRandomNumber(GUESTS.min, GUESTS.max),
     checkin: getRandomArrayValue(CHECKIN_LIST),
     checkout: getRandomArrayValue(CHECKOUT_LIST),
-    features: getRandomSlice(getShuffledArrayCopy(FEATURES_LIST)),
+    features: getRandomSlice(getShuffledArrayCopy(HOUSING_FEATURES)),
     description: HOUSING_DESCRIPTIONS[housingType],
     photos: getGalleryList(PHOTOS),
   };
@@ -146,8 +152,8 @@ const offerKey = () => {
 
 const ad = () => ({
   author: authorKey(),
-  offer: offerKey(),
   location: locationKey(),
+  offer: offerKey(),
 });
 
 const adList = () => new Array(USERS_COUNT).fill(null).map(() => ad());
