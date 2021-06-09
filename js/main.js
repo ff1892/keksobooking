@@ -1,5 +1,4 @@
 const USERS_COUNT = 10;
-const AVATARS_COUNT = 8;
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
 const HOUSING_TITLES = {
@@ -51,24 +50,6 @@ const LNG_MAX = 139.8;
 const LOCATION_PRECISION = 5;
 const GALLERY_MAX = 10;
 
-let housingLat;
-let housingLng;
-
-
-const getRandomInt = (minInt, maxInt) => {
-  if (minInt >= 0 && minInt > maxInt) {
-    [minInt, maxInt] = [maxInt, minInt];
-  }
-  if (minInt >= 0 && minInt !== maxInt) {
-    minInt = Math.ceil(minInt);
-    maxInt = Math.floor(maxInt);
-    return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt);
-  }
-  throw new Error('Некорректные аргументы');
-};
-
-getRandomInt();
-
 const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
   if (minNumber >= 0 && minNumber > maxNumber) {
     [minNumber, maxNumber] = [maxNumber, minNumber];
@@ -82,18 +63,11 @@ const getRandomNumber = (minNumber, maxNumber, fractionNumber = 0) => {
   throw new Error('Некорректные аргументы');
 };
 
-getRandomNumber();
-
-
 const getRandomArrayValue = (array) => array[getRandomNumber(0, array.length - 1)];
 
-const getShuffledArrayCopy = (array) => {
+const getShuffledArray = (array) => {
   const shuffledArrayCopy = [...array];
-  for (let i = shuffledArrayCopy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArrayCopy[i], shuffledArrayCopy[j]] = [shuffledArrayCopy[j], shuffledArrayCopy[i]];
-  }
-  return shuffledArrayCopy;
+  return shuffledArrayCopy.sort(() => getRandomNumber(0, 2) - 1);
 };
 
 const getRandomSlice = (array) => array.slice(0, getRandomNumber(0, array.length));
@@ -107,8 +81,8 @@ const getGalleryList = (array) => {
 };
 
 const getAvatarsArray = () => {
-  const avatars = new Array(USERS_COUNT).fill('img/avatars/unknown_racoon.png');
-  for (let i = 0; i < AVATARS_COUNT; i++) {
+  const avatars = new Array(USERS_COUNT).fill('');
+  for (let i = 0; i < USERS_COUNT; i++) {
     let avatarIndex = i + 1;
     avatarIndex < 10 ? avatarIndex = `0${  (avatarIndex).toString()}` : (avatarIndex).toString();
     avatars[i] = `img/avatars/user${ avatarIndex  }.png`;
@@ -116,45 +90,48 @@ const getAvatarsArray = () => {
   return avatars;
 };
 
-const avatarsList = getShuffledArrayCopy(getAvatarsArray());
+const avatarsList = getAvatarsArray();
 
 const getAvatar = (array) => array.shift();
 
-const authorKey = () => ({
+const getAuthorKey = () => ({
   avatar: getAvatar(avatarsList),
 });
 
-const locationKey = () => {
-  housingLat = getRandomNumber(LAT_MIN, LAT_MAX, LOCATION_PRECISION);
-  housingLng = getRandomNumber(LNG_MIN, LNG_MAX, LOCATION_PRECISION);
+const getLocationKey = () => {
+  const housingLat = getRandomNumber(LAT_MIN, LAT_MAX, LOCATION_PRECISION);
+  const housingLng = getRandomNumber(LNG_MIN, LNG_MAX, LOCATION_PRECISION);
   return {
     lat: housingLat,
     lng: housingLng,
   };
 };
 
-const offerKey = () => {
+const getOfferKey = (lat, lng) => {
   const housingType = getRandomArrayValue(HOUSING_TYPES);
   return {
     title: HOUSING_TITLES[housingType],
-    address: [housingLat, housingLng],
+    address: [lat, lng],
     price: getRandomNumber(PRICE.min, PRICE.max),
     type: housingType,
     rooms: getRandomNumber(ROOMS.min, ROOMS.max),
     guests: getRandomNumber(GUESTS.min, GUESTS.max),
     checkin: getRandomArrayValue(CHECKIN_LIST),
     checkout: getRandomArrayValue(CHECKOUT_LIST),
-    features: getRandomSlice(getShuffledArrayCopy(HOUSING_FEATURES)),
+    features: getRandomSlice(getShuffledArray(HOUSING_FEATURES)),
     description: HOUSING_DESCRIPTIONS[housingType],
     photos: getGalleryList(PHOTOS),
   };
 };
 
-const ad = () => ({
-  author: authorKey(),
-  location: locationKey(),
-  offer: offerKey(),
-});
+const ad = () => {
+  const {lat, lng} = getLocationKey();
+  return {
+    author: getAuthorKey(),
+    location: {lat, lng},
+    offer: getOfferKey(lat, lng),
+  };
+};
 
 const adList = () => new Array(USERS_COUNT).fill(null).map(() => ad());
 
