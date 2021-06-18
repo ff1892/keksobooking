@@ -1,6 +1,14 @@
 const USERS_COUNT = 10;
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
+const HOUSING_TYPES_RUSSIAN = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
+
 const HOUSING_TITLES = {
   palace: 'Крутейший дворец',
   flat: 'Милейшая квартирка',
@@ -31,7 +39,7 @@ const GUESTS = {
 
 const ROOMS = {
   min: 1,
-  max: 10,
+  max: 15,
 };
 
 const PHOTOS = [
@@ -51,6 +59,6 @@ const LOCATION_PRECISION = 5;
 const GALLERY_MAX = 10;
 
 export {USERS_COUNT};
-export {HOUSING_TYPES, HOUSING_TITLES, HOUSING_DESCRIPTIONS, HOUSING_FEATURES};
+export {HOUSING_TYPES, HOUSING_TYPES_RUSSIAN, HOUSING_TITLES, HOUSING_DESCRIPTIONS, HOUSING_FEATURES};
 export {PRICE, GUESTS, ROOMS, CHECKIN_LIST, CHECKOUT_LIST, PHOTOS, GALLERY_MAX};
 export {LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, LOCATION_PRECISION};
