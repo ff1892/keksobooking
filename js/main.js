@@ -1,6 +1,7 @@
-import {USERS_COUNT} from './variables.js';
 import {getAd} from './data.js';
+import {generateCard} from './card.js';
 
-const getAdList = () => new Array(USERS_COUNT).fill(null).map(() => getAd());
+const cardData = getAd();
 
-getAdList();
+const canvas = document.querySelector('#map-canvas');
+canvas.appendChild(generateCard(cardData));

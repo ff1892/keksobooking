@@ -15,7 +15,7 @@ const getAvatarsArray = () => {
   return avatars;
 };
 
-const avatarsList = getAvatarsArray();
+const avatarsList = getShuffledArray(getAvatarsArray());
 
 const getAvatar = (array) => array.shift();
 
