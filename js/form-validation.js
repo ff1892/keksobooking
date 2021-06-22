@@ -7,54 +7,62 @@ const MIN_PRICE = 0;
 
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
-
-adTitleInput.addEventListener('input', () => {
-  const valueLength = adTitleInput.value.length;
-
-  if (valueLength < MIN_TITLE_LENGTH) {
-    adTitleInput.setCustomValidity(`Ещё ${ MIN_TITLE_LENGTH - valueLength} симв.`);
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    adTitleInput.setCustomValidity(`Удалите лишние ${ valueLength - MIN_TITLE_LENGTH} симв.`);
-  } else {
-    adTitleInput.setCustomValidity('');
-  }
-  adTitleInput.reportValidity();
-});
-
-
-adPriceInput.addEventListener('input', () => {
-  const valuePrice = adPriceInput.value;
-
-  if (valuePrice > MAX_PRICE) {
-    adPriceInput.setCustomValidity(`Слишком дорого. Максимум ${MAX_PRICE} ₽/ночь`);
-  } else if (valuePrice < MIN_PRICE) {
-    adPriceInput.setCustomValidity(`Вы ничего не должны платить гостям. Минимальная цена: ${MIN_PRICE} ₽/ночь`);
-  } else {
-    adPriceInput.setCustomValidity('');
-  }
-  adPriceInput.reportValidity();
-});
-
 const adRoomsInput = adForm.querySelector('#room_number');
 const adGuestsInput = adForm.querySelector('#capacity');
+const adGuestsOptions = adGuestsInput.querySelectorAll('option');
 
-const getRoomsGuestsValidity = (roomsInput, guestsInput, messageValidity) => {
-  const adRoomsNumber = parseInt(roomsInput.value, 10);
-  const adGuestsNumber = parseInt(guestsInput.value, 10);
-  if (adRoomsNumber === 100 && adGuestsNumber !== 0 || adRoomsNumber !== 100 && adGuestsNumber === 0) {
-    adGuestsInput.setCustomValidity(messageValidity);
-  } else if (adRoomsNumber !== 100 && adGuestsNumber !==0 && adRoomsNumber < adGuestsNumber) {
-    adGuestsInput.setCustomValidity('Количество гостей не может превышать количество комнат');
-  } else {
-    adGuestsInput.setCustomValidity('');
-  }
-  adGuestsInput.reportValidity();
+const RoomsValue = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
 };
 
-adRoomsInput.addEventListener('change', () => {
-  getRoomsGuestsValidity(adRoomsInput, adGuestsInput, '100 комнат не для гостей');
-});
+const validateInputLength = (input, minLenght, maxLength) => {
+  const valueLength = input.value.length;
+  if (valueLength < minLenght) {
+    input.setCustomValidity(`Ещё ${ minLenght - valueLength } симв.`);
+  } else if (valueLength > maxLength) {
+    input.setCustomValidity(`Удалите лишние ${ valueLength - maxLength } симв.`);
+  } else {
+    input.setCustomValidity('');
+  }
+  input.reportValidity();
+};
 
-adGuestsInput.addEventListener('change', () => {
-  getRoomsGuestsValidity(adRoomsInput, adGuestsInput, 'не для гостей доступно только 100 комнат');
-});
+const validateInputNumber = (input, minNumber, maxNumber) => {
+  const valueInput = input.value;
+  if (valueInput > maxNumber) {
+    input.setCustomValidity(`Введите меньшее число. Максимум ${ maxNumber }.`);
+  } else if (valueInput < minNumber) {
+    input.setCustomValidity(`Введите большее число. Минимум: ${ minNumber }`);
+  } else {
+    input.setCustomValidity('');
+  }
+  input.reportValidity();
+};
+
+const onRoomsChange = (evt) => {
+  adGuestsOptions.forEach((option) => option.disabled = true);
+  RoomsValue[evt.target.value].forEach((guestsPossible) => {
+    adGuestsOptions.forEach((option) => {
+      if (Number(option.value) === guestsPossible) {
+        option.disabled = false;
+        option.selected = true;
+      }
+    });
+  });
+};
+
+const disableAllNotSelected = (list) => {
+  for (const option of list) {
+    if (option.selected === false) {
+      option.disabled = true;
+    }
+  }
+};
+
+adTitleInput.addEventListener('input', validateInputLength(adTitleInput, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH));
+adPriceInput.addEventListener('input', validateInputNumber(adPriceInput, MIN_PRICE, MAX_PRICE));
+disableAllNotSelected(adGuestsOptions);
+adRoomsInput.addEventListener('change', onRoomsChange);
