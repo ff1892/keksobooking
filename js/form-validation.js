@@ -3,13 +3,16 @@ import {adForm} from './form-status.js';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
-const MIN_PRICE = 0;
+let MIN_PRICE = 1000;
 
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
 const adRoomsInput = adForm.querySelector('#room_number');
 const adGuestsInput = adForm.querySelector('#capacity');
 const adGuestsOptions = adGuestsInput.querySelectorAll('option');
+const adHousingInput = adForm.querySelector('#type');
+const adCheckInInput = adForm.querySelector('#timein');
+const adCheckOutInput = adForm.querySelector('#timeout');
 
 const RoomsValue = {
   1: [1],
@@ -18,28 +21,44 @@ const RoomsValue = {
   100: [0],
 };
 
-const validateInputLength = (input, minLenght, maxLength) => {
-  const valueLength = input.value.length;
-  if (valueLength < minLenght) {
-    input.setCustomValidity(`Ещё ${ minLenght - valueLength } симв.`);
-  } else if (valueLength > maxLength) {
-    input.setCustomValidity(`Удалите лишние ${ valueLength - maxLength } симв.`);
-  } else {
-    input.setCustomValidity('');
-  }
-  input.reportValidity();
+const MinHousingPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
-const validateInputNumber = (input, minNumber, maxNumber) => {
-  const valueInput = input.value;
-  if (valueInput > maxNumber) {
-    input.setCustomValidity(`Введите меньшее число. Максимум ${ maxNumber }.`);
-  } else if (valueInput < minNumber) {
-    input.setCustomValidity(`Введите большее число. Минимум: ${ minNumber }`);
+const onTitleInput = () => {
+  const valueLength = adTitleInput.value.length;
+  if (valueLength < MIN_TITLE_LENGTH) {
+    adTitleInput.setCustomValidity(`Ещё ${ MIN_TITLE_LENGTH - valueLength } симв.`);
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    adTitleInput.setCustomValidity(`Удалите лишние ${ valueLength - MAX_TITLE_LENGTH } симв.`);
   } else {
-    input.setCustomValidity('');
+    adTitleInput.setCustomValidity('');
   }
-  input.reportValidity();
+  adTitleInput.reportValidity();
+};
+
+const onPriceInput = () => {
+  const valueInput = adPriceInput.value;
+  if (valueInput > MAX_PRICE) {
+    adPriceInput.setCustomValidity(`Введите меньшее число. Максимум ${ MAX_PRICE }.`);
+  } else if (valueInput < MIN_PRICE) {
+    adPriceInput.setCustomValidity(`Введите большее число. Минимум: ${ MIN_PRICE }`);
+  } else {
+    adPriceInput.setCustomValidity('');
+  }
+  adPriceInput.reportValidity();
+};
+
+const disableAllNotSelected = (list) => {
+  for (const option of list) {
+    if (option.selected === false) {
+      option.disabled = true;
+    }
+  }
 };
 
 const onRoomsChange = (evt) => {
@@ -54,15 +73,26 @@ const onRoomsChange = (evt) => {
   });
 };
 
-const disableAllNotSelected = (list) => {
-  for (const option of list) {
-    if (option.selected === false) {
-      option.disabled = true;
-    }
-  }
+const onHousingChange = (evt) => {
+  adPriceInput.value = '';
+  const currentMin = MinHousingPrice[evt.target.value];
+  adPriceInput.placeholder = currentMin;
+  MIN_PRICE = currentMin;
 };
 
-adTitleInput.addEventListener('input', validateInputLength(adTitleInput, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH));
-adPriceInput.addEventListener('input', validateInputNumber(adPriceInput, MIN_PRICE, MAX_PRICE));
+const onChekInChange = (evt) => {
+  adCheckOutInput.value = evt.target.value;
+};
+
+const onChekOutChange = (evt) => {
+  adCheckInInput.value = evt.target.value;
+};
+
+
+adTitleInput.addEventListener('input', onTitleInput);
+adPriceInput.addEventListener('input', onPriceInput);
 disableAllNotSelected(adGuestsOptions);
 adRoomsInput.addEventListener('change', onRoomsChange);
+adHousingInput.addEventListener('change', onHousingChange);
+adCheckInInput.addEventListener('change', onChekInChange);
+adCheckOutInput.addEventListener('change', onChekOutChange);
