@@ -3,4 +3,4 @@ import {getAd} from './data.js';
 
 const getAdList = () => new Array(USERS_COUNT).fill(null).map(() => getAd());
 
-getAdList();
+export {getAdList};

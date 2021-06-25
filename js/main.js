@@ -1,4 +1,6 @@
+import './map.js';
 import './form-validation.js';
+
 // import {adForm, filterForm, makeFormDisabled, makeFormEnabled} from './form-status.js';
 
 
