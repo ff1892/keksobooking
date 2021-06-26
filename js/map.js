@@ -1,6 +1,7 @@
 import {adForm, filterForm, makeFormDisabled, makeFormEnabled} from './form-status.js';
 import {getAdList} from './data-list.js';
 import {generateCard as createCustomPopup} from './card.js';
+import {TOKYO_CENTER} from './variables.js';
 
 const adressInput = adForm.querySelector('#address');
 const adList = getAdList();
@@ -14,9 +15,9 @@ const map = L.map('map-canvas')
     makeFormEnabled(adForm);
   })
   .setView({
-    lat: 35.66565,
-    lng: 139.76102,
-  }, 13);
+    lat: TOKYO_CENTER.lat,
+    lng: TOKYO_CENTER.lng,
+  }, 12.5);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -32,8 +33,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.66565,
-    lng: 139.76102,
+    lat: TOKYO_CENTER.lat,
+    lng: TOKYO_CENTER.lng,
   },
   {
     draggable: true,
@@ -75,7 +76,7 @@ const createMarker = (ad) => {
     .bindPopup(
       createCustomPopup(ad),
       {
-        keepInView: false,
+        keepInView: true,
       },
     );
 };
