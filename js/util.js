@@ -25,26 +25,6 @@ const getCorrectRoomsWord = (roomsNumber) => {
   }
 };
 
-const showAlert = (message, alertColor = 'red', alertTop = 0, alertTime = 5000) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = `${ alertTop }px`;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '25px 10px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.color = 'white';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = alertColor;
+const isEscapeEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-  alertContainer.textContent = message;
-
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, alertTime);
-}
-
-export {getCorrectGuestsWord, getCorrectRoomsWord, showAlert};
+export { getCorrectGuestsWord, getCorrectRoomsWord, isEscapeEvent };

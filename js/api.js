@@ -1,19 +1,19 @@
-import { showAlert } from './util.js';
+import { showAlertGetDataError } from './alerts.js';
 
 const getData = (onSuccess) => {
-  return fetch('https://23.javascript.pages.academy/keksobooking/data')
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(` ${ response.status } ${ response.statusText }`);
-  })
-  .then((json) => {
-    onSuccess(json);
-  })
-  .catch((err) => {
-    showAlert(`Не удалось загрузить данные. ${ err }`);
-  })
+  fetch('https://23.javascript.pages.academy/keksobooking/data')
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(` ${ response.status } ${ response.statusText }`);
+    })
+    .then((json) => {
+      onSuccess(json);
+    })
+    .catch((err) => {
+      showAlertGetDataError(`Не удалось загрузить данные. ${ err }`);
+    });
 };
 
 const sendData = (onSuccess, onFail, body) => {
@@ -24,20 +24,16 @@ const sendData = (onSuccess, onFail, body) => {
       body,
     },
   )
-  .then((response) => {
-    if (response.ok) {
-      onSuccess();
-    } else {
-      onFail()
-    }
-  })
-  .catch(() => {
-    onFail();
-  });
-}
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail();
+      }
+    })
+    .catch(() => {
+      onFail();
+    });
+};
 
 export { getData, sendData };
-
-
-
-

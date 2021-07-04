@@ -1,10 +1,10 @@
-import { sendData } from "./api.js";
-import { showAlert } from "./util.js";
+import { sendData } from './api.js';
+import { showAlertSendData } from './alerts.js';
 
 const adForm = document.querySelector('.ad-form');
 
-const showAdFormSubmitOk = () => {
-  showAlert('Данные успешно отправлены!', 'PaleGreen', 1400, 2500);
+const showAdFormSubmitSuccess = () => {
+  showAlertSendData('success');
   adForm.reset();
 };
 
@@ -13,13 +13,13 @@ const setAdFormSubmit = () => {
     evt.preventDefault();
 
     sendData(
-      () => showAdFormSubmitOk(),
-      () => showAlert('Ошибка отправки данных. Попробуйте ещё раз', 'red', 1400, 5000),
-      new FormData(evt.target)
+      () => showAdFormSubmitSuccess(),
+      () => showAlertSendData('error'),
+      new FormData(evt.target),
     );
   });
 };
 
-export {setAdFormSubmit};
+export { setAdFormSubmit };
 
 
