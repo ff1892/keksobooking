@@ -53,6 +53,10 @@ const renderMap = () => {
     const addressLat = evt.target.getLatLng().lat.toFixed(5);
     const addressLng = evt.target.getLatLng().lng.toFixed(5);
     adressInput.value = `${ addressLat } ${ addressLng }`;
+
+    adForm.addEventListener('reset', () => {
+      mainPinMarker.setLatLng(L.latLng(TOKYO_CENTER.lat, TOKYO_CENTER.lng));
+    });
   });
 };
 

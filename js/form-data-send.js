@@ -4,7 +4,7 @@ import { showAlert } from "./util.js";
 const adForm = document.querySelector('.ad-form');
 
 const showAdFormSubmitOk = () => {
-  showAlert('Данные успешно отправлены!', 'PaleGreen', 1400, 2500)
+  showAlert('Данные успешно отправлены!', 'PaleGreen', 1400, 2500);
   adForm.reset();
 };
 
