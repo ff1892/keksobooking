@@ -1,14 +1,6 @@
 const USERS_COUNT = 10;
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-const HOUSING_TYPES_RUSSIAN = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
-};
-
 const HOUSING_TITLES = {
   palace: 'Крутейший дворец',
   flat: 'Милейшая квартирка',
@@ -58,12 +50,7 @@ const LNG_MAX = 139.8;
 const LOCATION_PRECISION = 5;
 const GALLERY_MAX = 10;
 
-const TOKYO_CENTER = {
-  lat: 35.66565,
-  lng: 139.76102,
-};
-
 export {USERS_COUNT};
-export {HOUSING_TYPES, HOUSING_TYPES_RUSSIAN, HOUSING_TITLES, HOUSING_DESCRIPTIONS, HOUSING_FEATURES};
+export {HOUSING_TYPES, HOUSING_TITLES, HOUSING_DESCRIPTIONS, HOUSING_FEATURES};
 export {PRICE, GUESTS, ROOMS, CHECKIN_LIST, CHECKOUT_LIST, PHOTOS, GALLERY_MAX};
-export {LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, LOCATION_PRECISION, TOKYO_CENTER};
+export {LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, LOCATION_PRECISION};

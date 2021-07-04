@@ -1,5 +1,12 @@
-import {HOUSING_TYPES_RUSSIAN} from './variables.js';
 import {getCorrectGuestsWord, getCorrectRoomsWord} from './util.js';
+
+const HOUSING_TYPES_RUSSIAN = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -16,16 +23,18 @@ const generateCard = ({author, offer}) => {
   ${ offer.guests } ${ getCorrectGuestsWord(offer.guests) }`;
   card.querySelector('.popup__text--time').textContent = `Заезд после ${ offer.checkin }, выезд до ${ offer.checkout }`;
 
-  const modifiers = offer.features.map((feature) => `popup__feature--${ feature }`);
   const featuresItems = card.querySelectorAll('.popup__feature');
   const featuresList = card.querySelector('.popup__features');
-  featuresItems.forEach((item) => {
-    const modifier = item.classList[1];
-    if (! modifiers.includes(modifier)) {
-      item.remove();
-    }
-  });
-  if (card.querySelectorAll('.popup__feature').length === 0) {
+
+  if (offer.features) {
+    const modifiers = offer.features.map((feature) => `popup__feature--${ feature }`);
+    featuresItems.forEach((item) => {
+      const modifier = item.classList[1];
+      if (! modifiers.includes(modifier)) {
+        item.remove();
+      }
+    });
+  } else {
     featuresList.style.display = 'none';
   }
 
@@ -36,14 +45,16 @@ const generateCard = ({author, offer}) => {
   const photoTemplate = card.querySelector('.popup__photo');
   const photosList = card.querySelector('.popup__photos');
   const fragment = document.createDocumentFragment();
-  offer.photos.map((src) => {
-    const photo = photoTemplate.cloneNode(true);
-    photo.src = src;
-    fragment.appendChild(photo);
-  });
-  photosList.children[0].remove();
-  photosList.appendChild(fragment);
-  if (photosList.querySelectorAll('.popup__photo').length === 0) {
+
+  if (offer.photos) {
+    offer.photos.map((src) => {
+      const photo = photoTemplate.cloneNode(true);
+      photo.src = src;
+      fragment.appendChild(photo);
+    });
+    photosList.children[0].remove();
+    photosList.appendChild(fragment);
+  } else {
     photosList.style.display = 'none';
   }
 
