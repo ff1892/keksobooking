@@ -32,22 +32,26 @@ const showAlertSendData = (status) => {
     errorButton.focus();
   }
 
-  const onMessageEscapeKeyDown = (evt) => {
+  const onMessageEscapeKeyDown = (deleteListenersCallback) => (evt) => {
     if (isEscapeEvent(evt)) {
       evt.preventDefault();
       message.remove();
-      document.removeEventListener('keydown', onMessageEscapeKeyDown);
+      deleteListenersCallback();
     }
   };
 
-  const onMessageClick = () => {
+  const onMessageClick = (deleteListenersCallback) => () => {
     message.remove();
+    deleteListenersCallback();
+  };
+
+  const deleteListeners = () => {
     message.removeEventListener('click', onMessageClick);
     document.removeEventListener('keydown', onMessageEscapeKeyDown);
   };
 
-  document.addEventListener('keydown', onMessageEscapeKeyDown);
-  message.addEventListener('click', onMessageClick);
+  document.addEventListener('keydown', onMessageEscapeKeyDown(deleteListeners));
+  message.addEventListener('click', onMessageClick(deleteListeners));
 };
 
 export { showAlertGetDataError, showAlertSendData };
