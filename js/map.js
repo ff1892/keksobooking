@@ -1,6 +1,6 @@
 import { adForm, filterForm, makeFormDisabled, makeFormEnabled } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
-import { setFilterType } from './filters.js';
+import { getFilteredAdList } from './filters.js';
 
 const TOKYO_CENTER = {
   lat: 35.66565,
@@ -95,15 +95,15 @@ const renderPinGroup = (adList) => {
       );
   };
 
-  adList
-  .slice()
-  .filter((ad) => setFilterType(ad))
-  .slice(0, 10)
-  .map((ad) => createMarker(ad));
+  const adListFiltered = getFilteredAdList(adList.slice());
+
+  adListFiltered
+    .slice(0, 10)
+    .map((ad) => createMarker(ad));
 };
 
 const clearMarkers = () => {
   markerGroup.clearLayers();
-}
+};
 
 export { renderMap, renderPinGroup, clearMarkers};
