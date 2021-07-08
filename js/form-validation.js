@@ -1,4 +1,5 @@
 import { adForm, resetForm } from './form-status.js';
+import { showAvatarPreview, showPhotoPreview } from './preview.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -89,6 +90,8 @@ const onChekOutChange = (evt) => {
   adCheckInInput.value = evt.target.value;
 };
 
+// должно окрашивать невалидные поля,
+// но при отправке его перехватывает первое браузерное checkValidity
 const onAdFormSubmit = () => {
   adFormInputs.forEach((input) => {
     if (!input.checkValidity()) {
@@ -99,6 +102,8 @@ const onAdFormSubmit = () => {
 
 
 const validateForm = () => {
+  showAvatarPreview();
+  showPhotoPreview();
   adTitleInput.addEventListener('input', onTitleInput);
   adPriceInput.addEventListener('input', onPriceInput);
   disableAllNotSelected(adGuestsOptions);

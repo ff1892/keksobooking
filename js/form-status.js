@@ -20,18 +20,18 @@ const enableForm = (form) => {
 };
 
 const resetForm = () => {
-    mainPinMarker
-      .setLatLng(L.latLng(
-        TOKYO_CENTER.lat,
-        TOKYO_CENTER.lng
-      ));
-    map
-      .setView({
-        lat: TOKYO_CENTER.lat,
-        lng: TOKYO_CENTER.lng,
-      }, 12.5);
-    adForm.reset();
-    filterForm.reset();
+  mainPinMarker
+    .setLatLng(L.latLng(
+      TOKYO_CENTER.lat,
+      TOKYO_CENTER.lng,
+    ));
+  map
+    .setView({
+      lat: TOKYO_CENTER.lat,
+      lng: TOKYO_CENTER.lng,
+    }, 12.5);
+  adForm.reset();
+  filterForm.reset();
 };
 
 export { adForm, filterForm };
