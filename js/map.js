@@ -1,5 +1,6 @@
-import {adForm, filterForm, makeFormDisabled, makeFormEnabled} from './form-status.js';
-import {generateCard as createCustomPopup} from './card.js';
+import { adForm, filterForm, makeFormDisabled, makeFormEnabled } from './form-status.js';
+import { generateCard as createCustomPopup } from './card.js';
+import { getFilteredAdList } from './filters.js';
 
 const TOKYO_CENTER = {
   lat: 35.66565,
@@ -7,6 +8,8 @@ const TOKYO_CENTER = {
 };
 
 const map = L.map('map-canvas');
+
+let markerGroup;
 
 const renderMap = () => {
   const adressInput = adForm.querySelector('#address');
@@ -62,8 +65,7 @@ const renderMap = () => {
 
 
 const renderPinGroup = (adList) => {
-  const markerGroup = L.layerGroup().addTo(map);
-
+  markerGroup = L.layerGroup().addTo(map);
   const createMarker = (ad) => {
     const {lat, lng} = ad.location;
 
@@ -93,7 +95,15 @@ const renderPinGroup = (adList) => {
       );
   };
 
-  adList.map((ad) => createMarker(ad));
+  const adListFiltered = getFilteredAdList(adList.slice());
+
+  adListFiltered
+    .slice(0, 10)
+    .map((ad) => createMarker(ad));
 };
 
-export { renderMap, renderPinGroup };
+const clearMarkers = () => {
+  markerGroup.clearLayers();
+};
+
+export { renderMap, renderPinGroup, clearMarkers};
