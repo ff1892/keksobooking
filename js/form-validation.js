@@ -1,4 +1,4 @@
-import {adForm} from './form-status.js';
+import { adForm, resetForm } from './form-status.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -13,6 +13,7 @@ const adGuestsOptions = adGuestsInput.querySelectorAll('option');
 const adHousingInput = adForm.querySelector('#type');
 const adCheckInInput = adForm.querySelector('#timein');
 const adCheckOutInput = adForm.querySelector('#timeout');
+const adFormInputs = adForm.querySelectorAll('input');
 
 const RoomsValue = {
   1: [1],
@@ -88,11 +89,24 @@ const onChekOutChange = (evt) => {
   adCheckInInput.value = evt.target.value;
 };
 
+const onAdFormSubmit = () => {
+  adFormInputs.forEach((input) => {
+    if (!input.checkValidity()) {
+      input.style.borderColor = 'red';
+    }
+  });
+};
 
-adTitleInput.addEventListener('input', onTitleInput);
-adPriceInput.addEventListener('input', onPriceInput);
-disableAllNotSelected(adGuestsOptions);
-adRoomsInput.addEventListener('change', onRoomsChange);
-adHousingInput.addEventListener('change', onHousingChange);
-adCheckInInput.addEventListener('change', onChekInChange);
-adCheckOutInput.addEventListener('change', onChekOutChange);
+
+const validateForm = () => {
+  adTitleInput.addEventListener('input', onTitleInput);
+  adPriceInput.addEventListener('input', onPriceInput);
+  disableAllNotSelected(adGuestsOptions);
+  adRoomsInput.addEventListener('change', onRoomsChange);
+  adHousingInput.addEventListener('change', onHousingChange);
+  adCheckInInput.addEventListener('change', onChekInChange);
+  adCheckOutInput.addEventListener('change', onChekOutChange);
+  adForm.addEventListener('reset', resetForm);
+};
+
+export { validateForm, onAdFormSubmit };

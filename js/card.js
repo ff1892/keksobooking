@@ -1,4 +1,4 @@
-import {getCorrectGuestsWord, getCorrectRoomsWord} from './util.js';
+import { getCorrectGuestsWord, getCorrectRoomsWord } from './util.js';
 
 const HOUSING_TYPES_RUSSIAN = {
   palace: 'Дворец',
@@ -61,4 +61,4 @@ const generateCard = ({author, offer}) => {
   return card;
 };
 
-export {generateCard};
+export { generateCard };

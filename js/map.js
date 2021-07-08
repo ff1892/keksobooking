@@ -1,4 +1,4 @@
-import { adForm, filterForm, makeFormDisabled, makeFormEnabled } from './form-status.js';
+import { adForm, filterForm, disableForm, enableForm } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
 import { getFilteredAdList } from './filters.js';
 
@@ -8,19 +8,19 @@ const TOKYO_CENTER = {
 };
 
 const map = L.map('map-canvas');
-
+let mainPinMarker;
 let markerGroup;
 
 const renderMap = () => {
   const adressInput = adForm.querySelector('#address');
 
-  makeFormDisabled(filterForm);
-  makeFormDisabled(adForm);
+  disableForm(filterForm);
+  disableForm(adForm);
 
   map
     .on('load', () => {
-      makeFormEnabled(filterForm);
-      makeFormEnabled(adForm);
+      enableForm(filterForm);
+      enableForm(adForm);
     })
     .setView({
       lat: TOKYO_CENTER.lat,
@@ -39,7 +39,7 @@ const renderMap = () => {
     iconAnchor: [26, 52],
   });
 
-  const mainPinMarker = L.marker(
+  mainPinMarker = L.marker(
     {
       lat: TOKYO_CENTER.lat,
       lng: TOKYO_CENTER.lng,
@@ -56,10 +56,6 @@ const renderMap = () => {
     const addressLat = evt.target.getLatLng().lat.toFixed(5);
     const addressLng = evt.target.getLatLng().lng.toFixed(5);
     adressInput.value = `${ addressLat } ${ addressLng }`;
-
-    adForm.addEventListener('reset', () => {
-      mainPinMarker.setLatLng(L.latLng(TOKYO_CENTER.lat, TOKYO_CENTER.lng));
-    });
   });
 };
 
@@ -107,3 +103,4 @@ const clearMarkers = () => {
 };
 
 export { renderMap, renderPinGroup, clearMarkers};
+export { map, mainPinMarker, TOKYO_CENTER };

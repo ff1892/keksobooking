@@ -11,14 +11,18 @@ const PRICE_VALUES = {
   high: 'high',
 };
 
-const filterTypeInput = filterForm.querySelector('#housing-type');
-const filterPriceInput = filterForm.querySelector('#housing-price');
-const filterRoomsInput = filterForm.querySelector('#housing-rooms');
-const filterGuestsInput = filterForm.querySelector('#housing-guests');
-const filterFeaturesInputs = filterForm.querySelectorAll('.map__checkbox');
+const filterTypeInput = document.querySelector('#housing-type'); // filterForm.querySelector не срабатывает: Cannot access 'filterForm' before initialization
+const filterPriceInput = document.querySelector('#housing-price');
+const filterRoomsInput = document.querySelector('#housing-rooms');
+const filterGuestsInput = document.querySelector('#housing-guests');
+const filterFeaturesInputs = document.querySelectorAll('.map__checkbox');
 
 const checkFilterChange = (reRenderCallback) => {
   filterForm.addEventListener('change', () => {
+    clearMarkers();
+    reRenderCallback();
+  });
+  filterForm.addEventListener('reset', () => {
     clearMarkers();
     reRenderCallback();
   });
@@ -65,6 +69,6 @@ const getFilteredAdList = (adList) => {
   return filteredAdList;
 };
 
-export{ checkFilterChange, getFilteredAdList};
+export{ checkFilterChange, getFilteredAdList };
 
 
