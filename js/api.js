@@ -1,4 +1,8 @@
 import { showAlertGetDataError } from './alerts.js';
+import { enableForm } from './form-status.js';
+import { map } from './map.js';
+
+const filterForm = document.querySelector('.map__filters');
 
 const getData = (onSuccess) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
@@ -9,6 +13,7 @@ const getData = (onSuccess) => {
       throw new Error(` ${ response.status } ${ response.statusText }`);
     })
     .then((json) => {
+      enableForm(filterForm);
       onSuccess(json);
     })
     .catch((err) => {

@@ -1,17 +1,19 @@
-import { validateForm } from './form-validation.js';
+import { disableForms } from './form-status.js';
 import { debounce } from './util.js';
 import { renderMap, renderPinGroup } from './map.js';
 import { getData } from './api.js';
-import { setAdFormSubmit } from './form-data-send.js';
 import { checkFilterChange } from './filters.js';
-import './form-validation.js';
+import { validateForm } from './form-validation.js';
+import { setAdFormSubmit } from './form-data-send.js';
 
 const initApp = () => {
-  renderMap();
+  disableForms();
 
-  getData((adList) => {
-    renderPinGroup(adList);
-    checkFilterChange(debounce(() => renderPinGroup(adList)));
+  renderMap(() => {
+    getData((adList) => {
+      renderPinGroup(adList);
+      checkFilterChange(debounce(() => renderPinGroup(adList)));
+    });
   });
 
   validateForm();

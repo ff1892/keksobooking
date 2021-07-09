@@ -36,4 +36,9 @@ const resetForm = () => {
   filterForm.reset();
 };
 
-export { disableForm, enableForm, resetForm };
+const disableForms = () => {
+  disableForm(adForm);
+  disableForm(filterForm);
+};
+
+export { disableForms, enableForm, resetForm };

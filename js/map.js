@@ -1,4 +1,4 @@
-import { disableForm, enableForm } from './form-status.js';
+import { enableForm } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
 import { getFilteredAdList } from './filters.js';
 
@@ -14,15 +14,11 @@ const map = L.map('map-canvas');
 let mainPinMarker;
 let markerGroup;
 
-const renderMap = () => {
+const renderMap = (getDataCallback) => {
   const adressInput = adForm.querySelector('#address');
-
-  disableForm(filterForm);
-  disableForm(adForm);
 
   map
     .on('load', () => {
-      enableForm(filterForm);
       enableForm(adForm);
     })
     .setView({
@@ -60,6 +56,8 @@ const renderMap = () => {
     const addressLng = evt.target.getLatLng().lng.toFixed(5);
     adressInput.value = `${ addressLat } ${ addressLng }`;
   });
+
+  getDataCallback();
 };
 
 
