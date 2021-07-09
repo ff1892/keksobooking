@@ -1,6 +1,6 @@
-import {getCorrectGuestsWord, getCorrectRoomsWord} from './util.js';
+import { getCorrectGuestsWord, getCorrectRoomsWord } from './util.js';
 
-const HOUSING_TYPES_RUSSIAN = {
+const HousingTypesRussian = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -18,7 +18,7 @@ const generateCard = ({author, offer}) => {
   card.querySelector('.popup__title').textContent = offer.title;
   card.querySelector('.popup__text--address').textContent = offer.address;
   card.querySelector('.popup__text--price').textContent = `${ offer.price } ₽/ночь`;
-  card.querySelector('.popup__type').textContent = HOUSING_TYPES_RUSSIAN[offer.type];
+  card.querySelector('.popup__type').textContent = HousingTypesRussian[offer.type];
   card.querySelector('.popup__text--capacity').textContent = `${ offer.rooms } ${ getCorrectRoomsWord(offer.rooms) } для
   ${ offer.guests } ${ getCorrectGuestsWord(offer.guests) }`;
   card.querySelector('.popup__text--time').textContent = `Заезд после ${ offer.checkin }, выезд до ${ offer.checkout }`;
@@ -61,4 +61,4 @@ const generateCard = ({author, offer}) => {
   return card;
 };
 
-export {generateCard};
+export { generateCard };

@@ -1,11 +1,12 @@
 import { sendData } from './api.js';
 import { showAlertSendData } from './alerts.js';
+import { resetForm } from './form-status.js';
 
 const adForm = document.querySelector('.ad-form');
 
 const showAdFormSubmitSuccess = () => {
   showAlertSendData('success');
-  adForm.reset();
+  resetForm();
 };
 
 const setAdFormSubmit = () => {

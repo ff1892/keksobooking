@@ -1,16 +1,16 @@
-import { filterForm } from './form-status.js';
 import { clearMarkers } from './map.js';
 
 const ANY = 'any';
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
 
-const PRICE_VALUES = {
+const PriceValues = {
   low: 'low',
   middle: 'middle',
   high: 'high',
 };
 
+const filterForm = document.querySelector('.map__filters');
 const filterTypeInput = filterForm.querySelector('#housing-type');
 const filterPriceInput = filterForm.querySelector('#housing-price');
 const filterRoomsInput = filterForm.querySelector('#housing-rooms');
@@ -22,17 +22,21 @@ const checkFilterChange = (reRenderCallback) => {
     clearMarkers();
     reRenderCallback();
   });
+  filterForm.addEventListener('reset', () => {
+    clearMarkers();
+    reRenderCallback();
+  });
 };
 
 const checkFilterType = ({offer}) => filterTypeInput.value === ANY || offer.type === filterTypeInput.value;
 
 const checkFilterPrice = ({offer}) => {
   switch (filterPriceInput.value) {
-    case PRICE_VALUES.low:
+    case PriceValues.low:
       return offer.price < MIN_PRICE;
-    case PRICE_VALUES.middle:
+    case PriceValues.middle:
       return offer.price >= MIN_PRICE && offer.price <= MAX_PRICE;
-    case PRICE_VALUES.high:
+    case PriceValues.high:
       return offer.price > MAX_PRICE;
     default:
       return true;
@@ -65,6 +69,6 @@ const getFilteredAdList = (adList) => {
   return filteredAdList;
 };
 
-export{ checkFilterChange, getFilteredAdList};
+export{ checkFilterChange, getFilteredAdList };
 
 

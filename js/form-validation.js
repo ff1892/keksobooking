@@ -1,10 +1,13 @@
-import {adForm} from './form-status.js';
+import { resetForm } from './form-status.js';
+import { showAvatarPreview, showPhotoPreview } from './preview.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
 let MIN_PRICE = 1000;
 
+const adForm = document.querySelector('.ad-form');
+const adFormSubmitButton = document.querySelector('.ad-form__submit');
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
 const adRoomsInput = adForm.querySelector('#room_number');
@@ -13,6 +16,7 @@ const adGuestsOptions = adGuestsInput.querySelectorAll('option');
 const adHousingInput = adForm.querySelector('#type');
 const adCheckInInput = adForm.querySelector('#timein');
 const adCheckOutInput = adForm.querySelector('#timeout');
+const adFormInputs = adForm.querySelectorAll('input');
 
 const RoomsValue = {
   1: [1],
@@ -37,6 +41,7 @@ const onTitleInput = () => {
     adTitleInput.setCustomValidity(`Удалите лишние ${ valueLength - MAX_TITLE_LENGTH } симв.`);
   } else {
     adTitleInput.setCustomValidity('');
+    adTitleInput.style.outline = 'none';
   }
   adTitleInput.reportValidity();
 };
@@ -49,6 +54,7 @@ const onPriceInput = () => {
     adPriceInput.setCustomValidity(`Введите большее число. Минимум: ${ MIN_PRICE }`);
   } else {
     adPriceInput.setCustomValidity('');
+    adPriceInput.style.outline = 'none';
   }
   adPriceInput.reportValidity();
 };
@@ -89,10 +95,26 @@ const onChekOutChange = (evt) => {
 };
 
 
-adTitleInput.addEventListener('input', onTitleInput);
-adPriceInput.addEventListener('input', onPriceInput);
-disableAllNotSelected(adGuestsOptions);
-adRoomsInput.addEventListener('change', onRoomsChange);
-adHousingInput.addEventListener('change', onHousingChange);
-adCheckInInput.addEventListener('change', onChekInChange);
-adCheckOutInput.addEventListener('change', onChekOutChange);
+const onAdFormSubmitButton = () => {
+  adFormInputs.forEach((input) => {
+    if (!input.checkValidity()) {
+      input.style.outline = 'medium solid red';
+    }
+  });
+};
+
+const validateForm = () => {
+  showAvatarPreview();
+  showPhotoPreview();
+  adTitleInput.addEventListener('input', onTitleInput);
+  adPriceInput.addEventListener('input', onPriceInput);
+  disableAllNotSelected(adGuestsOptions);
+  adRoomsInput.addEventListener('change', onRoomsChange);
+  adHousingInput.addEventListener('change', onHousingChange);
+  adCheckInInput.addEventListener('change', onChekInChange);
+  adCheckOutInput.addEventListener('change', onChekOutChange);
+  adFormSubmitButton.addEventListener('click', onAdFormSubmitButton);
+  adForm.addEventListener('reset', resetForm);
+};
+
+export { validateForm };
