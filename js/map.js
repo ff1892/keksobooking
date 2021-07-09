@@ -8,7 +8,6 @@ const TOKYO_CENTER = {
 };
 
 const adForm = document.querySelector('.ad-form');
-const filterForm = document.querySelector('.map__filters');
 
 const map = L.map('map-canvas');
 let mainPinMarker;

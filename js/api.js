@@ -1,6 +1,5 @@
 import { showAlertGetDataError } from './alerts.js';
 import { enableForm } from './form-status.js';
-import { map } from './map.js';
 
 const filterForm = document.querySelector('.map__filters');
 
