@@ -1,7 +1,6 @@
-import { adForm } from './form-status.js';
-
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
+const adForm = document.querySelector('.ad-form');
 const avatarInput = adForm.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__preview');
 

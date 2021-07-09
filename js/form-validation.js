@@ -1,4 +1,4 @@
-import { adForm, resetForm } from './form-status.js';
+import { resetForm } from './form-status.js';
 import { showAvatarPreview, showPhotoPreview } from './preview.js';
 
 const MIN_TITLE_LENGTH = 30;
@@ -6,6 +6,8 @@ const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
 let MIN_PRICE = 1000;
 
+const adForm = document.querySelector('.ad-form');
+const adFormSubmitButton = document.querySelector('.ad-form__submit');
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
 const adRoomsInput = adForm.querySelector('#room_number');
@@ -39,6 +41,7 @@ const onTitleInput = () => {
     adTitleInput.setCustomValidity(`Удалите лишние ${ valueLength - MAX_TITLE_LENGTH } симв.`);
   } else {
     adTitleInput.setCustomValidity('');
+    adTitleInput.style.outline = 'none';
   }
   adTitleInput.reportValidity();
 };
@@ -51,6 +54,7 @@ const onPriceInput = () => {
     adPriceInput.setCustomValidity(`Введите большее число. Минимум: ${ MIN_PRICE }`);
   } else {
     adPriceInput.setCustomValidity('');
+    adPriceInput.style.outline = 'none';
   }
   adPriceInput.reportValidity();
 };
@@ -90,16 +94,14 @@ const onChekOutChange = (evt) => {
   adCheckInInput.value = evt.target.value;
 };
 
-// должно окрашивать невалидные поля,
-// но при отправке его перехватывает первое браузерное checkValidity
-const onAdFormSubmit = () => {
+
+const onAdFormSubmitButton = () => {
   adFormInputs.forEach((input) => {
     if (!input.checkValidity()) {
-      input.style.borderColor = 'red';
+      input.style.outline = 'medium solid red';
     }
   });
 };
-
 
 const validateForm = () => {
   showAvatarPreview();
@@ -111,7 +113,8 @@ const validateForm = () => {
   adHousingInput.addEventListener('change', onHousingChange);
   adCheckInInput.addEventListener('change', onChekInChange);
   adCheckOutInput.addEventListener('change', onChekOutChange);
+  adFormSubmitButton.addEventListener('click', onAdFormSubmitButton);
   adForm.addEventListener('reset', resetForm);
 };
 
-export { validateForm, onAdFormSubmit };
+export { validateForm };

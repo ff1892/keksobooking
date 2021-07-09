@@ -1,6 +1,7 @@
 import { map, mainPinMarker, TOKYO_CENTER } from './map.js';
 
 const adForm = document.querySelector('.ad-form');
+const adFormInputs = adForm.querySelectorAll('input');
 const filterForm = document.querySelector('.map__filters');
 
 const disableForm = (form) => {
@@ -31,8 +32,8 @@ const resetForm = () => {
       lng: TOKYO_CENTER.lng,
     }, 12.5);
   adForm.reset();
+  adFormInputs.forEach((input) => input.style.outline = 'none');
   filterForm.reset();
 };
 
-export { adForm, filterForm };
 export { disableForm, enableForm, resetForm };

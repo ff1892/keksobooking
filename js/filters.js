@@ -1,4 +1,3 @@
-import { filterForm } from './form-status.js';
 import { clearMarkers } from './map.js';
 
 const ANY = 'any';
@@ -11,11 +10,12 @@ const PRICE_VALUES = {
   high: 'high',
 };
 
-const filterTypeInput = document.querySelector('#housing-type'); // filterForm.querySelector не срабатывает: Cannot access 'filterForm' before initialization
-const filterPriceInput = document.querySelector('#housing-price');
-const filterRoomsInput = document.querySelector('#housing-rooms');
-const filterGuestsInput = document.querySelector('#housing-guests');
-const filterFeaturesInputs = document.querySelectorAll('.map__checkbox');
+const filterForm = document.querySelector('.map__filters');
+const filterTypeInput = filterForm.querySelector('#housing-type');
+const filterPriceInput = filterForm.querySelector('#housing-price');
+const filterRoomsInput = filterForm.querySelector('#housing-rooms');
+const filterGuestsInput = filterForm.querySelector('#housing-guests');
+const filterFeaturesInputs = filterForm.querySelectorAll('.map__checkbox');
 
 const checkFilterChange = (reRenderCallback) => {
   filterForm.addEventListener('change', () => {

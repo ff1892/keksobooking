@@ -1,4 +1,4 @@
-import { adForm, filterForm, disableForm, enableForm } from './form-status.js';
+import { disableForm, enableForm } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
 import { getFilteredAdList } from './filters.js';
 
@@ -6,6 +6,9 @@ const TOKYO_CENTER = {
   lat: 35.66565,
   lng: 139.76102,
 };
+
+const adForm = document.querySelector('.ad-form');
+const filterForm = document.querySelector('.map__filters');
 
 const map = L.map('map-canvas');
 let mainPinMarker;
