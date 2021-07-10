@@ -45,6 +45,7 @@ const renderMap = (getDataCallback) => {
     {
       draggable: true,
       icon: mainPinIcon,
+      zIndexOffset: 1000,
     },
   );
 

@@ -61,9 +61,7 @@ const onPriceInput = () => {
 
 const disableAllNotSelected = (list) => {
   for (const option of list) {
-    if (option.selected === false) {
-      option.disabled = true;
-    }
+    option.disabled = !option.selected;
   }
 };
 
@@ -73,17 +71,19 @@ const onRoomsChange = (evt) => {
     adGuestsOptions.forEach((option) => {
       if (Number(option.value) === guestsPossible) {
         option.disabled = false;
-        option.selected = true;
+        option.selected = !option.disabled;
       }
     });
   });
 };
 
 const onHousingChange = (evt) => {
-  adPriceInput.value = '';
   const currentMin = MinHousingPrice[evt.target.value];
   adPriceInput.placeholder = currentMin;
   MIN_PRICE = currentMin;
+  if (adPriceInput.value.length) {
+    onPriceInput();
+  }
 };
 
 const onChekInChange = (evt) => {
