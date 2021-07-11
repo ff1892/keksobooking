@@ -1,7 +1,13 @@
-import { map, mainPinMarker, TOKYO_CENTER } from './map.js';
+import { map, mainPinMarker, INITIAL_COORDINATES } from './map.js';
+import { MinHousingPrice } from './form-validation.js';
+import { deleteAvatarPreview, deletePhotoPreview } from './preview.js';
+import { roomsResetHandler } from './form-validation.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormInputs = adForm.querySelectorAll('input');
+const adHousingInput = adForm.querySelector('#type');
+const initialHousingOption = adHousingInput.querySelector('option[selected]');
+const adPriceInput = adForm.querySelector('#price');
 const filterForm = document.querySelector('.map__filters');
 
 const disableForm = (form) => {
@@ -20,19 +26,25 @@ const enableForm = (form) => {
   }
 };
 
-const resetForm = () => {
+const formResetHandler = () => {
   mainPinMarker
     .setLatLng(L.latLng(
-      TOKYO_CENTER.lat,
-      TOKYO_CENTER.lng,
+      INITIAL_COORDINATES.lat,
+      INITIAL_COORDINATES.lng,
     ));
   map
     .setView({
-      lat: TOKYO_CENTER.lat,
-      lng: TOKYO_CENTER.lng,
+      lat: INITIAL_COORDINATES.lat,
+      lng: INITIAL_COORDINATES.lng,
     }, 12.5);
   adForm.reset();
-  adFormInputs.forEach((input) => input.style.outline = 'none');
+  adFormInputs.forEach((input) => {
+    input.style.outline = 'none';
+  });
+  roomsResetHandler();
+  adPriceInput.placeholder = MinHousingPrice[initialHousingOption.value];
+  deleteAvatarPreview();
+  deletePhotoPreview();
   filterForm.reset();
 };
 
@@ -41,4 +53,4 @@ const disableForms = () => {
   disableForm(filterForm);
 };
 
-export { disableForms, enableForm, resetForm };
+export { disableForms, enableForm, formResetHandler };

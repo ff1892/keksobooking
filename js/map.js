@@ -2,7 +2,7 @@ import { enableForm } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
 import { getFilteredAdList } from './filters.js';
 
-const TOKYO_CENTER = {
+const INITIAL_COORDINATES = {
   lat: 35.66565,
   lng: 139.76102,
 };
@@ -21,8 +21,8 @@ const renderMap = (getDataCallback) => {
       enableForm(adForm);
     })
     .setView({
-      lat: TOKYO_CENTER.lat,
-      lng: TOKYO_CENTER.lng,
+      lat: INITIAL_COORDINATES.lat,
+      lng: INITIAL_COORDINATES.lng,
     }, 12.5);
 
   L.tileLayer(
@@ -39,8 +39,8 @@ const renderMap = (getDataCallback) => {
 
   mainPinMarker = L.marker(
     {
-      lat: TOKYO_CENTER.lat,
-      lng: TOKYO_CENTER.lng,
+      lat: INITIAL_COORDINATES.lat,
+      lng: INITIAL_COORDINATES.lng,
     },
     {
       draggable: true,
@@ -104,4 +104,4 @@ const clearMarkers = () => {
 };
 
 export { renderMap, renderPinGroup, clearMarkers};
-export { map, mainPinMarker, TOKYO_CENTER };
+export { map, mainPinMarker, INITIAL_COORDINATES };

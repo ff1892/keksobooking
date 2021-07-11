@@ -46,8 +46,8 @@ const showAlertSendData = (status) => {
   };
 
   const deleteListeners = () => {
-    message.removeEventListener('click', onMessageClick);
-    document.removeEventListener('keydown', onMessageEscapeKeyDown);
+    message.removeEventListener('click', onMessageClick(deleteListeners));
+    document.removeEventListener('keydown', onMessageEscapeKeyDown(deleteListeners));
   };
 
   document.addEventListener('keydown', onMessageEscapeKeyDown(deleteListeners));

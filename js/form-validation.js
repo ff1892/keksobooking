@@ -1,10 +1,10 @@
-import { resetForm } from './form-status.js';
+import { formResetHandler } from './form-status.js';
 import { showAvatarPreview, showPhotoPreview } from './preview.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
-let MIN_PRICE = 1000;
+let minPrice = 1000;
 
 const adForm = document.querySelector('.ad-form');
 const adFormSubmitButton = document.querySelector('.ad-form__submit');
@@ -13,6 +13,7 @@ const adPriceInput = adForm.querySelector('#price');
 const adRoomsInput = adForm.querySelector('#room_number');
 const adGuestsInput = adForm.querySelector('#capacity');
 const adGuestsOptions = adGuestsInput.querySelectorAll('option');
+const adGuestsOptionSelected = adGuestsInput.querySelector('option[selected]');
 const adHousingInput = adForm.querySelector('#type');
 const adCheckInInput = adForm.querySelector('#timein');
 const adCheckOutInput = adForm.querySelector('#timeout');
@@ -50,8 +51,8 @@ const onPriceInput = () => {
   const valueInput = adPriceInput.value;
   if (valueInput > MAX_PRICE) {
     adPriceInput.setCustomValidity(`Введите меньшее число. Максимум ${ MAX_PRICE }.`);
-  } else if (valueInput < MIN_PRICE) {
-    adPriceInput.setCustomValidity(`Введите большее число. Минимум: ${ MIN_PRICE }`);
+  } else if (valueInput < minPrice) {
+    adPriceInput.setCustomValidity(`Введите большее число. Минимум: ${ minPrice }`);
   } else {
     adPriceInput.setCustomValidity('');
     adPriceInput.style.outline = 'none';
@@ -66,8 +67,20 @@ const disableAllNotSelected = (list) => {
 };
 
 const onRoomsChange = (evt) => {
-  adGuestsOptions.forEach((option) => option.disabled = true);
+  adGuestsOptions.forEach((option) => option.setAttribute('disabled', 'disabled'));
   RoomsValue[evt.target.value].forEach((guestsPossible) => {
+    adGuestsOptions.forEach((option) => {
+      if (Number(option.value) === guestsPossible) {
+        option.disabled = false;
+        option.selected = !option.disabled;
+      }
+    });
+  });
+};
+
+const roomsResetHandler = () => {
+  adGuestsOptions.forEach((option) => option.setAttribute('disabled', 'disabled'));
+  RoomsValue[adGuestsOptionSelected.value].forEach((guestsPossible) => {
     adGuestsOptions.forEach((option) => {
       if (Number(option.value) === guestsPossible) {
         option.disabled = false;
@@ -80,7 +93,7 @@ const onRoomsChange = (evt) => {
 const onHousingChange = (evt) => {
   const currentMin = MinHousingPrice[evt.target.value];
   adPriceInput.placeholder = currentMin;
-  MIN_PRICE = currentMin;
+  minPrice = currentMin;
   if (adPriceInput.value.length) {
     onPriceInput();
   }
@@ -95,7 +108,7 @@ const onChekOutChange = (evt) => {
 };
 
 
-const onAdFormSubmitButton = () => {
+const onSubmitButtonClick = () => {
   adFormInputs.forEach((input) => {
     if (!input.checkValidity()) {
       input.style.outline = 'medium solid red';
@@ -113,8 +126,8 @@ const validateForm = () => {
   adHousingInput.addEventListener('change', onHousingChange);
   adCheckInInput.addEventListener('change', onChekInChange);
   adCheckOutInput.addEventListener('change', onChekOutChange);
-  adFormSubmitButton.addEventListener('click', onAdFormSubmitButton);
-  adForm.addEventListener('reset', resetForm);
+  adFormSubmitButton.addEventListener('click', onSubmitButtonClick);
+  adForm.addEventListener('reset', formResetHandler);
 };
 
-export { validateForm };
+export { validateForm, MinHousingPrice, roomsResetHandler };
