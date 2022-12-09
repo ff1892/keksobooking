@@ -1,6 +1,8 @@
 import { enableForm } from './form-status.js';
 import { generateCard as createCustomPopup } from './card.js';
 import { getFilteredAdList } from './filters.js';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const INITIAL_COORDINATES = {
   lat: 35.66565,
